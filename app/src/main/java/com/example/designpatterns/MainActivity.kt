@@ -1,10 +1,7 @@
 package com.example.designpatterns
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import com.example.designpatterns.notification.Email
 import com.example.designpatterns.notification.MobileApp
 import com.example.designpatterns.notification.TextMessage
@@ -20,8 +17,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        doTheStuff()
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        doTheStuff()
     }
 
     fun doTheStuff() {
@@ -31,8 +33,14 @@ class MainActivity : AppCompatActivity() {
         val email = Email()
         val mobileApp = MobileApp()
 
-        textMessage.updateOrderStatus(order)
-        email.updateOrderStatus(order)
-        mobileApp.updateOrderStatus(order)
+        order.registerObserver(textMessage)
+        order.registerObserver(email)
+        order.registerObserver(mobileApp)
+
+        order.notifyObservers()
+
+        order.changeOrderStatus(OrderStatus.ODEBRANE)
+        order.unregisterObserver(email)
+        order.changeOrderStatus(OrderStatus.WYSLANE)
     }
 }

@@ -3,9 +3,10 @@ package com.example.designpatterns.notification
 import android.util.Log
 import com.example.designpatterns.order.Order
 
-class MobileApp : Message {
+class MobileApp : Observer {
 
-    override fun updateOrderStatus(order: Order) {
-        Log.i("MoblieApp Zamówienie:", "${order.orderNumber} zmieniło status na: ${order.orderStatus}")
+    override fun update(order: Order) {
+        Log.e("MoblieApp Zamówienie:", "${order.orderNumber} zmieniło status na: ${order.orderStatus}")
     }
+
 }
